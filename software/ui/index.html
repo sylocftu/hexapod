@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hexapod Control Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Connecting overlay -->
+  <div id="overlay" class="overlay">
+    <div class="overlay-content">
+      <div class="spinner"></div>
+      <p id="overlay-msg">Connecting to robot…</p>
+    </div>
+  </div>
+
+  <header class="app-header">
+    <span class="logo">🕷️ Hexapod</span>
+    <span id="conn-status" class="badge badge-disconnected">DISCONNECTED</span>
+    <span id="gait-badge" class="badge badge-mode">STAND</span>
+  </header>
+
+  <main class="app-grid">
+    <!-- ── Left panel: controls ── -->
+    <aside class="panel panel-controls">
+      <h2>Gait Mode</h2>
+      <div class="btn-group">
+        <button class="gait-btn" data-mode="stand" id="btn-stand">Stand</button>
+        <button class="gait-btn" data-mode="tripod" id="btn-tripod">Tripod</button>
+        <button class="gait-btn" data-mode="wave" id="btn-wave">Wave</button>
+        <button class="gait-btn" data-mode="ripple" id="btn-ripple">Ripple</button>
+        <button class="gait-btn btn-stop" data-mode="stop" id="btn-stop">⏹ Stop</button>
+      </div>
+
+      <h2>Body Pose</h2>
+      <label>Height <span id="height-val">-10 cm</span>
+        <input type="range" id="height-slider" min="-18" max="-4" value="-10" step="1" />
+      </label>
+      <label>Pitch <span id="pitch-val">0°</span>
+        <input type="range" id="pitch-slider" min="-20" max="20" value="0" step="1" />
+      </label>
+      <label>Roll <span id="roll-slider-label">0°</span>
+        <input type="range" id="roll-slider" min="-20" max="20" value="0" step="1" />
+      </label>
+
+      <h2>Keyboard</h2>
+      <div class="key-hint">
+        <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> — move<br/>
+        <kbd>Q</kbd><kbd>E</kbd> — rotate<br/>
+        <kbd>Space</kbd> — stop
+      </div>
+    </aside>
+
+    <!-- ── Centre panel: visualisation ── -->
+    <section class="panel panel-viz">
+      <h2>Leg Positions</h2>
+      <canvas id="hex-canvas" width="400" height="400"></canvas>
+
+      <h2>Servo Angles</h2>
+      <table class="angle-table">
+        <thead>
+          <tr><th>Leg</th><th>Coxa</th><th>Femur</th><th>Tibia</th></tr>
+        </thead>
+        <tbody id="angle-tbody">
+          <!-- filled by JS -->
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ── Right panel: telemetry ── -->
+    <aside class="panel panel-telemetry">
+      <h2>IMU</h2>
+      <div class="gauge-group">
+        <div class="gauge">
+          <span class="gauge-label">Roll</span>
+          <span class="gauge-value" id="imu-roll">0.0°</span>
+          <div class="gauge-bar-track">
+            <div class="gauge-bar" id="bar-roll" style="width:50%"></div>
+          </div>
+        </div>
+        <div class="gauge">
+          <span class="gauge-label">Pitch</span>
+          <span class="gauge-value" id="imu-pitch">0.0°</span>
+          <div class="gauge-bar-track">
+            <div class="gauge-bar" id="bar-pitch" style="width:50%"></div>
+          </div>
+        </div>
+        <div class="gauge">
+          <span class="gauge-label">Temp</span>
+          <span class="gauge-value" id="imu-temp">25.0°C</span>
+        </div>
+      </div>
+
+      <h2>Distance Sensors</h2>
+      <div class="sensor-group">
+        <div class="sensor-row">
+          <span>◀ Left</span>
+          <div class="sensor-bar-track">
+            <div class="sensor-bar" id="bar-left" style="width:50%"></div>
+          </div>
+          <span id="dist-left">50 cm</span>
+        </div>
+        <div class="sensor-row">
+          <span>▲ Center</span>
+          <div class="sensor-bar-track">
+            <div class="sensor-bar" id="bar-center" style="width:50%"></div>
+          </div>
+          <span id="dist-center">50 cm</span>
+        </div>
+        <div class="sensor-row">
+          <span>▶ Right</span>
+          <div class="sensor-bar-track">
+            <div class="sensor-bar" id="bar-right" style="width:50%"></div>
+          </div>
+          <span id="dist-right">50 cm</span>
+        </div>
+      </div>
+
+      <h2>Joystick</h2>
+      <p class="hint">Drag to move · Hold Shift to rotate</p>
+      <div class="joystick-container">
+        <div id="joystick-zone" class="joystick-zone">
+          <div id="joystick-thumb" class="joystick-thumb"></div>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

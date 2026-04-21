@@ -1,0 +1,23 @@
+Component,Quantity,Unit_Cost_USD,Supplier,Notes
+Raspberry Pi 4 4GB,1,55.00,Adafruit / PiShop,Main controller; 4 GB RAM recommended
+PCA9685 16-ch PWM Driver,1,6.99,Adafruit #815,I2C address 0x40; controls all 18 servos
+MG996R Metal-Gear Servo,18,4.50,Amazon / AliExpress,4.8-7.2 V; ~10 kg·cm torque
+LiPo Battery 7.4V 5000mAh,1,28.00,HobbKing / Amazon,2S; XT60 connector; 25C minimum
+BEC 5V 5A (UBEC),1,8.00,Pololu #2110 or equiv,Powers Raspberry Pi and logic
+BEC 6V 10A (UBEC),1,10.00,HobbKing or equiv,Powers all 18 MG996R servos at 6 V
+MPU-6050 IMU Module,1,3.50,Amazon / AliExpress,6-axis; I2C address 0x68
+HC-SR04 Ultrasonic Sensor,3,1.50,Amazon,Front / left / right; 5 V; GPIO pulse timing
+Raspberry Pi Camera Module v2,1,25.00,Adafruit #3099,8 MP; CSI ribbon cable
+3.3V-5V Level Shifter (4ch),1,1.50,SparkFun BOB-12009 or equiv,HC-SR04 echo signal level shift
+M3 Hex Bolt & Nut Assortment,1,9.00,Amazon,M3×8 M3×12 M3×16; minimum 200 pcs
+M3 Heat-Set Insert Kit,1,8.00,CNC Kitchen or Amazon,3×4mm; use with soldering iron
+JST-XH 2.54mm Connector Kit,1,9.00,Amazon,For servo and sensor wiring
+LiPo Balance Charger,1,30.00,iCharger / ISDT,2S balance charge; mandatory safety item
+PCB Prototype Board (10×10cm),2,1.50,Amazon,For power distribution / connectors
+22 AWG Silicone Wire (red/black),2,8.00,Amazon,Flexible; minimum 1 m each colour
+M2 Self-Tapping Screw Set,1,5.00,Amazon,M2×6 and M2×8 for servo horn attachment
+Dupont Jumper Wire Kit,1,5.00,Amazon,F-F and M-F for prototyping
+XT60 Connector Pair,2,1.50,Amazon / HobbKing,Battery main power connector
+40-pin GPIO Header (female),1,1.00,Amazon,Raspberry Pi header extension
+Zip Tie Assortment,1,3.00,Amazon,Cable management
+Electrical Tape / Heat Shrink Kit,1,5.00,Amazon,Insulation and strain relief

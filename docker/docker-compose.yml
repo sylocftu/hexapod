@@ -1,0 +1,85 @@
+version: "3.9"
+
+services:
+  # ── Core control service ────────────────────────────────────────────────────
+  hexapod-core:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.core
+    image: hexapod-core:latest
+    container_name: hexapod-core
+    restart: unless-stopped
+    privileged: true                  # required for I²C and GPIO on Raspberry Pi
+    devices:
+      - /dev/i2c-1:/dev/i2c-1
+      - /dev/gpiomem:/dev/gpiomem
+    environment:
+      - I2C_BUS=1
+      - PCA9685_ADDRESS=0x40
+      - LOG_LEVEL=INFO
+      - TICK_RATE_HZ=50
+      - CAMERA_ENABLED=false
+    ports:
+      - "8000:8000"
+    networks:
+      - hexapod-net
+    healthcheck:
+      test: ["CMD", "python", "-c",
+             "import urllib.request; urllib.request.urlopen('http://localhost:8000/')"]
+      interval: 15s
+      timeout: 5s
+      start_period: 15s
+      retries: 3
+
+  # ── Web UI service ──────────────────────────────────────────────────────────
+  hexapod-ui:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.ui
+    image: hexapod-ui:latest
+    container_name: hexapod-ui
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      hexapod-core:
+        condition: service_healthy
+    networks:
+      - hexapod-net
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost/"]
+      interval: 15s
+      timeout: 3s
+      start_period: 5s
+      retries: 3
+
+  # ── Vision service (optional) ───────────────────────────────────────────────
+  hexapod-vision:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.vision
+    image: hexapod-vision:latest
+    container_name: hexapod-vision
+    restart: unless-stopped
+    profiles:
+      - vision
+    devices:
+      - /dev/video0:/dev/video0
+    environment:
+      - CAMERA_INDEX=0
+      - JPEG_QUALITY=80
+    ports:
+      - "8001:8001"
+    networks:
+      - hexapod-net
+    healthcheck:
+      test: ["CMD", "python", "-c",
+             "import urllib.request; urllib.request.urlopen('http://localhost:8001/')"]
+      interval: 15s
+      timeout: 5s
+      start_period: 20s
+      retries: 3
+
+networks:
+  hexapod-net:
+    driver: bridge

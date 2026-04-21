@@ -1,0 +1,245 @@
+/* ── CSS variables ─────────────────────────────────────────────────────────── */
+:root {
+  --bg:           #0d1117;
+  --surface:      #161b22;
+  --surface2:     #21262d;
+  --border:       #30363d;
+  --accent:       #58a6ff;
+  --accent-hover: #79b8ff;
+  --accent-active:#1f6feb;
+  --danger:       #f85149;
+  --success:      #3fb950;
+  --warning:      #d29922;
+  --text:         #c9d1d9;
+  --text-muted:   #8b949e;
+  --radius:       8px;
+  --gap:          12px;
+}
+
+/* ── Reset ─────────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  font-size: 14px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Overlay ───────────────────────────────────────────────────────────────── */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(13,17,23,0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  transition: opacity 0.4s;
+}
+.overlay.hidden { opacity: 0; pointer-events: none; }
+.overlay-content { text-align: center; color: var(--text); }
+.spinner {
+  width: 48px; height: 48px;
+  border: 4px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 16px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Header ────────────────────────────────────────────────────────────────── */
+.app-header {
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
+  padding: 10px 20px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.logo { font-size: 1.3rem; font-weight: 700; }
+
+.badge {
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+.badge-disconnected { background: var(--danger); color: #fff; }
+.badge-connected    { background: var(--success); color: #000; }
+.badge-mode         { background: var(--accent-active); color: #fff; }
+
+/* ── App grid ──────────────────────────────────────────────────────────────── */
+.app-grid {
+  display: grid;
+  grid-template-columns: 220px 1fr 240px;
+  gap: var(--gap);
+  padding: var(--gap);
+  flex: 1;
+  min-height: 0;
+}
+
+/* ── Panels ────────────────────────────────────────────────────────────────── */
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  overflow-y: auto;
+}
+.panel h2 {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin: 12px 0 8px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 4px;
+}
+.panel h2:first-child { margin-top: 0; }
+
+/* ── Gait buttons ──────────────────────────────────────────────────────────── */
+.btn-group { display: flex; flex-direction: column; gap: 6px; }
+
+.gait-btn {
+  background: var(--surface2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 9px 14px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.15s, border-color 0.15s;
+  text-align: left;
+}
+.gait-btn:hover { background: var(--border); border-color: var(--accent); }
+.gait-btn.active { background: var(--accent-active); border-color: var(--accent); color: #fff; }
+.btn-stop { border-color: var(--danger); color: var(--danger); }
+.btn-stop:hover { background: var(--danger); color: #fff; }
+
+/* ── Sliders / labels ──────────────────────────────────────────────────────── */
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 8px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+input[type="range"] {
+  accent-color: var(--accent);
+  width: 100%;
+}
+
+/* ── Keyboard hint ─────────────────────────────────────────────────────────── */
+.key-hint { font-size: 0.8rem; line-height: 1.8; color: var(--text-muted); }
+kbd {
+  display: inline-block;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 0.78rem;
+  color: var(--text);
+}
+
+/* ── Canvas ────────────────────────────────────────────────────────────────── */
+#hex-canvas {
+  display: block;
+  margin: 8px auto;
+  border-radius: var(--radius);
+  background: var(--surface2);
+  max-width: 100%;
+}
+
+/* ── Angle table ───────────────────────────────────────────────────────────── */
+.angle-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+.angle-table th, .angle-table td {
+  text-align: center;
+  padding: 4px 8px;
+  border-bottom: 1px solid var(--border);
+}
+.angle-table th { color: var(--text-muted); font-weight: 500; }
+
+/* ── Gauge ─────────────────────────────────────────────────────────────────── */
+.gauge-group { display: flex; flex-direction: column; gap: 10px; }
+.gauge { display: flex; flex-direction: column; gap: 3px; }
+.gauge-label { font-size: 0.78rem; color: var(--text-muted); }
+.gauge-value { font-size: 1.1rem; font-weight: 600; color: var(--accent); }
+.gauge-bar-track {
+  height: 6px;
+  background: var(--surface2);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.gauge-bar {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 3px;
+  transition: width 0.1s;
+}
+
+/* ── Sensor bars ───────────────────────────────────────────────────────────── */
+.sensor-group { display: flex; flex-direction: column; gap: 8px; }
+.sensor-row { display: flex; align-items: center; gap: 6px; font-size: 0.82rem; }
+.sensor-bar-track {
+  flex: 1;
+  height: 8px;
+  background: var(--surface2);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.sensor-bar {
+  height: 100%;
+  background: var(--success);
+  border-radius: 4px;
+  transition: width 0.15s, background 0.15s;
+}
+.sensor-bar.danger { background: var(--danger); }
+.sensor-bar.warning { background: var(--warning); }
+
+/* ── Joystick ──────────────────────────────────────────────────────────────── */
+.hint { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 6px; }
+.joystick-container { display: flex; justify-content: center; }
+.joystick-zone {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  background: var(--surface2);
+  border: 2px solid var(--border);
+  border-radius: 50%;
+  cursor: crosshair;
+  touch-action: none;
+}
+.joystick-thumb {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background: var(--accent);
+  border-radius: 50%;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  transition: background 0.1s;
+}
+.joystick-zone:active .joystick-thumb { background: var(--accent-hover); }
+
+/* ── Responsive ────────────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .app-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+  .panel-controls { order: 1; }
+  .panel-viz      { order: 2; }
+  .panel-telemetry { order: 3; }
+}
