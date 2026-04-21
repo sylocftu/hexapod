@@ -15,7 +15,7 @@ setup(
         "scipy==1.13.0",
         "pydantic==2.6.4",
         "websockets==12.0",
-        "python-multipart==0.0.9",
+        "python-multipart==0.0.22",
         "opencv-python-headless==4.9.0.80",
     ],
     extras_require={
