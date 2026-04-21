@@ -1,0 +1,15 @@
+FROM nginx:alpine
+
+LABEL org.opencontainers.image.title="hexapod-ui"
+LABEL org.opencontainers.image.description="STEM Hexapod dashboard — nginx static server"
+
+# Copy dashboard files
+COPY software/ui/ /usr/share/nginx/html/
+
+# Copy nginx configuration
+COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+
+HEALTHCHECK --interval=15s --timeout=3s --start-period=5s --retries=3 \
+    CMD wget -qO- http://localhost/ || exit 1

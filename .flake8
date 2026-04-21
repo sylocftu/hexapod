@@ -1,0 +1,14 @@
+[flake8]
+max-line-length = 99
+exclude =
+    .git,
+    __pycache__,
+    build,
+    dist,
+    .venv,
+    venv,
+    *.egg-info
+
+per-file-ignores =
+    software/tests/*: E501, F401
+    software/hexapod_core/api/main.py: E501
