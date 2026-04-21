@@ -255,9 +255,7 @@ class GaitEngine:
         moving = abs(self._vx) > 1e-4 or abs(self._vy) > 1e-4
 
         for ls in self._legs:
-            old_phase = ls.phase
             ls.phase = (ls.phase + phase_advance) % 1.0
-            was_swinging = old_phase < swing_duty
             now_swinging = ls.phase < swing_duty
 
             nx, ny, nz = ls.neutral

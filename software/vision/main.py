@@ -17,14 +17,15 @@ import asyncio
 import io
 import logging
 import os
-import time
 from typing import AsyncGenerator
 
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse, StreamingResponse
 
 logger = logging.getLogger("hexapod.vision")
-logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)-8s %(name)s — %(message)s")
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s %(levelname)-8s %(name)s — %(message)s"
+)
 
 _CAMERA_INDEX = int(os.getenv("CAMERA_INDEX", "0"))
 _JPEG_QUALITY = int(os.getenv("JPEG_QUALITY", "80"))

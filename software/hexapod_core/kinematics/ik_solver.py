@@ -58,7 +58,7 @@ class LegIK:
         l_femur: float = L_FEMUR,
         l_tibia: float = L_TIBIA,
     ) -> None:
-        if any(l <= 0 for l in (l_coxa, l_femur, l_tibia)):
+        if any(link <= 0 for link in (l_coxa, l_femur, l_tibia)):
             raise ValueError("All link lengths must be positive.")
         self.l_coxa = l_coxa
         self.l_femur = l_femur
